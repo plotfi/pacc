@@ -7,7 +7,7 @@ IS      (u|U|l|L)*
 
 %{
 #include <stdio.h>
-#include "parser.tab.h"
+#include "parser.hpp"
 
 int check_type();
 void count();
@@ -117,15 +117,22 @@ L?\"(\\.|[^\\"])*\"    { count(); return(STRING_LITERAL); }
 
 int yywrap() { return 1; }
 
+#ifdef __cplusplus
+#define YYINPUT yyinput
+#else
+#define YYINPUT input
+#endif
+
 void comment() {
+
   char c, c1;
 
   unsigned isCommentIncomplete = 0;
   while (isCommentIncomplete) {
-    while ((c = input()) != '*' && c != 0)
+    while ((c = YYINPUT()) != '*' && c != 0)
       putchar(c);
 
-    isCommentIncomplete = ((c1 = input()) != '/' && c != 0);
+    isCommentIncomplete = ((c1 = YYINPUT()) != '/' && c != 0);
 
     if (isCommentIncomplete)
       unput(c1);

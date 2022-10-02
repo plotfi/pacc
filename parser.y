@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include "ast.h"
 
-extern "C" int yylex();
+int yylex();
 void yyerror(const char *s);
 TranslationUnitDecl *topnode;
 
