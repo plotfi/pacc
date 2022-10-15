@@ -422,6 +422,7 @@ translation_unit
 
 external_declaration_list
   : external_declaration {
+    printf("TU Decl\n");
     NamedDecl *ND = new NamedDecl();
     ND->name = "named decl";
     std::vector<NamedDecl*> *Decls = new std::vector<NamedDecl*>();

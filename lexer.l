@@ -7,8 +7,8 @@ IS      (u|U|l|L)*
 
 %{
 #include <stdio.h>
+#define YYSTYPE void*
 #include "parser.hpp"
-
 int check_type();
 void count();
 void comment();
@@ -50,7 +50,9 @@ void comment();
 "volatile"             { count(); return(VOLATILE); }
 "while"                { count(); return(WHILE); }
 
-{L}({L}|{D})*          { count(); return(check_type()); }
+{L}({L}|{D})*          { count();
+                         yylval = yytext;
+                         return(check_type()); }
 
 0[xX]{H}+{IS}?         { count(); return(CONSTANT); }
 0{D}+{IS}?             { count(); return(CONSTANT); }
